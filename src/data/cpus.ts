@@ -1,0 +1,25 @@
+import type { Cpu } from "@/lib/types";
+
+export const cpus: Cpu[] = [
+  { id: "ryzen-5-5600", brand: "AMD", name: "Ryzen 5 5600", socket: "AM4", cores: 6, threads: 12, baseClock: 3.5, boostClock: 4.4, tdp: 65, power: 88, memory: ["DDR4"], integratedGraphics: false },
+  { id: "ryzen-7-5700x3d", brand: "AMD", name: "Ryzen 7 5700X3D", socket: "AM4", cores: 8, threads: 16, baseClock: 3.0, boostClock: 4.1, tdp: 105, power: 142, memory: ["DDR4"], integratedGraphics: false },
+  { id: "ryzen-7-5800x3d", brand: "AMD", name: "Ryzen 7 5800X3D", socket: "AM4", cores: 8, threads: 16, baseClock: 3.4, boostClock: 4.5, tdp: 105, power: 142, memory: ["DDR4"], integratedGraphics: false },
+  { id: "ryzen-5-7600", brand: "AMD", name: "Ryzen 5 7600", socket: "AM5", cores: 6, threads: 12, baseClock: 3.8, boostClock: 5.1, tdp: 65, power: 88, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-5-7600x", brand: "AMD", name: "Ryzen 5 7600X", socket: "AM5", cores: 6, threads: 12, baseClock: 4.7, boostClock: 5.3, tdp: 105, power: 142, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-7-7700x", brand: "AMD", name: "Ryzen 7 7700X", socket: "AM5", cores: 8, threads: 16, baseClock: 4.5, boostClock: 5.4, tdp: 105, power: 142, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-7-7800x3d", brand: "AMD", name: "Ryzen 7 7800X3D", socket: "AM5", cores: 8, threads: 16, baseClock: 4.2, boostClock: 5.0, tdp: 120, power: 162, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-9-7900x", brand: "AMD", name: "Ryzen 9 7900X", socket: "AM5", cores: 12, threads: 24, baseClock: 4.7, boostClock: 5.6, tdp: 170, power: 230, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-9-7950x", brand: "AMD", name: "Ryzen 9 7950X", socket: "AM5", cores: 16, threads: 32, baseClock: 4.5, boostClock: 5.7, tdp: 170, power: 230, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-5-9600x", brand: "AMD", name: "Ryzen 5 9600X", socket: "AM5", cores: 6, threads: 12, baseClock: 3.9, boostClock: 5.4, tdp: 65, power: 88, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-7-9700x", brand: "AMD", name: "Ryzen 7 9700X", socket: "AM5", cores: 8, threads: 16, baseClock: 3.8, boostClock: 5.5, tdp: 65, power: 88, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-7-9800x3d", brand: "AMD", name: "Ryzen 7 9800X3D", socket: "AM5", cores: 8, threads: 16, baseClock: 4.7, boostClock: 5.2, tdp: 120, power: 162, memory: ["DDR5"], integratedGraphics: true },
+  { id: "ryzen-9-9950x", brand: "AMD", name: "Ryzen 9 9950X", socket: "AM5", cores: 16, threads: 32, baseClock: 4.3, boostClock: 5.7, tdp: 170, power: 230, memory: ["DDR5"], integratedGraphics: true },
+  { id: "core-i5-12400f", brand: "Intel", name: "Core i5-12400F", socket: "LGA1700", cores: 6, threads: 12, baseClock: 2.5, boostClock: 4.4, tdp: 65, power: 117, memory: ["DDR4", "DDR5"], integratedGraphics: false },
+  { id: "core-i5-13400f", brand: "Intel", name: "Core i5-13400F", socket: "LGA1700", cores: 10, threads: 16, baseClock: 2.5, boostClock: 4.6, tdp: 65, power: 148, memory: ["DDR4", "DDR5"], integratedGraphics: false },
+  { id: "core-i5-14600k", brand: "Intel", name: "Core i5-14600K", socket: "LGA1700", cores: 14, threads: 20, baseClock: 3.5, boostClock: 5.3, tdp: 125, power: 181, memory: ["DDR4", "DDR5"], integratedGraphics: true },
+  { id: "core-i7-14700k", brand: "Intel", name: "Core i7-14700K", socket: "LGA1700", cores: 20, threads: 28, baseClock: 3.4, boostClock: 5.6, tdp: 125, power: 253, memory: ["DDR4", "DDR5"], integratedGraphics: true },
+  { id: "core-i9-14900k", brand: "Intel", name: "Core i9-14900K", socket: "LGA1700", cores: 24, threads: 32, baseClock: 3.2, boostClock: 6.0, tdp: 125, power: 253, memory: ["DDR4", "DDR5"], integratedGraphics: true },
+  { id: "core-ultra-5-245k", brand: "Intel", name: "Core Ultra 5 245K", socket: "LGA1851", cores: 14, threads: 14, baseClock: 4.2, boostClock: 5.2, tdp: 125, power: 159, memory: ["DDR5"], integratedGraphics: true },
+  { id: "core-ultra-7-265k", brand: "Intel", name: "Core Ultra 7 265K", socket: "LGA1851", cores: 20, threads: 20, baseClock: 3.9, boostClock: 5.5, tdp: 125, power: 250, memory: ["DDR5"], integratedGraphics: true },
+  { id: "core-ultra-9-285k", brand: "Intel", name: "Core Ultra 9 285K", socket: "LGA1851", cores: 24, threads: 24, baseClock: 3.7, boostClock: 5.7, tdp: 125, power: 250, memory: ["DDR5"], integratedGraphics: true },
+];
