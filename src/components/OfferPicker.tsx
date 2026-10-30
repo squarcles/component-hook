@@ -5,7 +5,7 @@ import { useBuild } from "@/lib/build";
 import { getMerchant, merchants, openSearch } from "@/lib/merchants";
 import { fetchReviews, hasExtension, searchOffers, variantPrice, verifyOffer } from "@/lib/extension";
 import { summarizeReviews, type ReviewSummary } from "@/lib/reviews";
-import { formatPrice, matchesAnyKeyword, matchesProduct, splitOutliers } from "@/lib/match";
+import { formatPrice, matchesAnyKeyword, matchesProduct, SCAM_NOTICE, splitOutliers } from "@/lib/match";
 import type { Rating as RatingValue, Search } from "@/lib/criteria";
 import type { Merchant, Offer } from "@/lib/types";
 
@@ -383,6 +383,7 @@ export default function OfferPicker({ title, search, onTake, onClose }: Props) {
               {lookup.pending.length > 0 && ` · ${lookup.pending.length} annonce${lookup.pending.length > 1 ? "s" : ""} à variantes en cours de vérification`}
               {reviewsTotal > 0 && reviewsDone < reviewsTotal && ` · avis analysés : ${reviewsDone}/${reviewsTotal}`}
             </p>
+            <p className="scam-notice">{SCAM_NOTICE}</p>
             {lookup.failed.length > 0 && <p className="error">Sites inaccessibles : {lookup.failed.join(", ")}</p>}
             {(shown.length > 0 || lookup.pending.length > 0) && (
               <ul className="offers">

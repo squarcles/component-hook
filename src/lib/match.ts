@@ -47,7 +47,10 @@ export function matchesProduct(
   return keywords.every((k) => new RegExp(`(^|[^a-z0-9])${k}([^a-z0-9]|$)`, "i").test(offer.title));
 }
 
-export type Suspicion = { ratio: number; message: string; outlier?: number } | false;
+export const SCAM_NOTICE =
+  "Vérifiez toujours le prix et la fiabilité de chaque annonce sur le site du marchand avant d'acheter. Des arnaques existent et Component Hook ne les filtre pas toutes : nos avertissements ne remplacent pas une vérification manuelle du vendeur, des avis et des conditions de vente.";
+
+export type Suspicion ={ ratio: number; message: string; outlier?: number } | false;
 
 export const DEFAULT_SUSPICION: Suspicion = {
   ratio: 0.6,

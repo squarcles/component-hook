@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { categories, getProduct } from "@/lib/categories";
 import { getMerchant } from "@/lib/merchants";
-import { formatPrice } from "@/lib/match";
+import { formatPrice, SCAM_NOTICE } from "@/lib/match";
 import { buildProblems } from "@/lib/compat";
 import { criteriaSpecs } from "@/lib/criteria";
 import type { Build, BuildPart, Category, CategoryId } from "@/lib/types";
@@ -121,6 +121,7 @@ export default function BuildView({ build, onRemove }: Props) {
           <strong>{formatPrice(total)}</strong>
         </div>
       )}
+      <p className="scam-notice">{SCAM_NOTICE}</p>
     </>
   );
 }
