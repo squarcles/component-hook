@@ -40,6 +40,7 @@ function sanitizeOffer(value: unknown, hosts: string[]): Offer | undefined {
     variant: text(value.variant),
     suspicious: text(value.suspicious),
     reviewWarning: text(value.reviewWarning),
+    manual: value.manual === true ? true : undefined,
   };
 }
 

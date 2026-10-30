@@ -70,6 +70,7 @@ export type Offer = {
   suspicious?: string;
   merchantId?: string;
   reviewWarning?: string;
+  manual?: boolean;
   deliveryDays?: number | null;
 };
 

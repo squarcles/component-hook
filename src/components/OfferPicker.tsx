@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useBuild } from "@/lib/build";
-import { getMerchant, merchants, openSearch } from "@/lib/merchants";
+import { getMerchant, isMerchantUrl, merchants, openSearch } from "@/lib/merchants";
 import { fetchReviews, hasExtension, searchOffers, variantPrice, verifyOffer } from "@/lib/extension";
 import { summarizeReviews, type ReviewSummary } from "@/lib/reviews";
-import { formatPrice, matchesAnyKeyword, matchesProduct, SCAM_NOTICE, splitOutliers } from "@/lib/match";
+import { formatPrice, matchesAnyKeyword, matchesProduct, parseManualPrice, SCAM_NOTICE, splitOutliers } from "@/lib/match";
 import type { Rating as RatingValue, Search } from "@/lib/criteria";
 import type { Merchant, Offer } from "@/lib/types";
 
@@ -75,6 +75,10 @@ export default function OfferPicker({ title, search, onTake, onClose }: Props) {
   const [corrections, setCorrections] = useState<Record<string, Correction>>({});
   const [verifying, setVerifying] = useState<string | null>(null);
   const [priceChecks, setPriceChecks] = useState<Record<string, boolean>>({});
+  const [manual, setManual] = useState<Merchant | null>(null);
+  const [manualPrice, setManualPrice] = useState("");
+  const [manualUrl, setManualUrl] = useState("");
+  const [manualError, setManualError] = useState("");
   const runId = useRef(0);
 
   useEffect(() => {
@@ -158,10 +162,37 @@ export default function OfferPicker({ title, search, onTake, onClose }: Props) {
     return { offers, failed };
   };
 
+  const closeManual = () => {
+    setManual(null);
+    setManualPrice("");
+    setManualUrl("");
+    setManualError("");
+  };
+
+  const submitManual = (merchant: Merchant) => {
+    const price = parseManualPrice(manualPrice);
+    if (!price) {
+      setManualError("Saisissez un prix valide, par exemple 349,90.");
+      return;
+    }
+    const link = manualUrl.trim();
+    if (link && !isMerchantUrl(merchant, link)) {
+      setManualError(`Ce lien ne correspond pas au site ${merchant.name}.`);
+      return;
+    }
+    onTake(merchant, {
+      title,
+      price,
+      url: link || merchant.searchUrl(search.query),
+      merchantId: merchant.id,
+      manual: true,
+    });
+  };
+
   const startSearch = async (scope: Merchant[]) => {
     if (!extension) {
       openSearch(scope[0], search.query);
-      onTake(scope[0]);
+      setManual(scope[0]);
       return;
     }
 
@@ -335,7 +366,58 @@ export default function OfferPicker({ title, search, onTake, onClose }: Props) {
       <div className={lookup ? "modal modal-wide" : "modal"} onClick={(e) => e.stopPropagation()}>
         <h2>{title}</h2>
 
-        {!lookup && (
+        {manual && (
+          <form
+            className="manual-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitManual(manual);
+            }}
+          >
+            <p>
+              La recherche s&apos;est ouverte sur {manual.name}. Reportez ici le prix de l&apos;annonce que vous avez
+              choisie.
+            </p>
+            <label className="field">
+              <span>Prix (€)</span>
+              <input
+                className="input"
+                inputMode="decimal"
+                placeholder="349,90"
+                autoFocus
+                value={manualPrice}
+                onChange={(e) => setManualPrice(e.target.value)}
+              />
+            </label>
+            <label className="field">
+              <span>Lien de l&apos;annonce (facultatif)</span>
+              <input
+                className="input"
+                type="url"
+                placeholder={`https://${manual.hosts[0]}/...`}
+                value={manualUrl}
+                onChange={(e) => setManualUrl(e.target.value)}
+              />
+            </label>
+            {manualError && <p className="error">{manualError}</p>}
+            <div className="modal-actions">
+              <button className="btn" type="submit">
+                Ajouter à ma configuration
+              </button>
+              <button className="btn-ghost" type="button" onClick={() => openSearch(manual, search.query)}>
+                Rouvrir la recherche
+              </button>
+              <button className="btn-ghost" type="button" onClick={() => onTake(manual)}>
+                Ajouter sans prix
+              </button>
+              <button className="btn-ghost" type="button" onClick={closeManual}>
+                Choisir un autre site
+              </button>
+            </div>
+          </form>
+        )}
+
+        {!lookup && !manual && (
           <>
             <p>Sur quel site souhaitez-vous l&apos;acheter ?</p>
             {extension && (

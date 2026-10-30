@@ -38,6 +38,7 @@ function PartDetails({ category, part }: { category: Category; part: BuildPart }
           {part.criteria && <span className="offer-line">{part.offer.title}</span>}
           {part.offer.suspicious && <span className="offer-warning">{part.offer.suspicious}</span>}
           {part.offer.reviewWarning && <span className="offer-warning">{part.offer.reviewWarning}</span>}
+          {part.offer.manual && <span className="offer-delivery">Prix saisi manuellement</span>}
         </>
       )}
     </>

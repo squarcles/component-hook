@@ -59,6 +59,15 @@ export function getMerchant(id: string) {
   return merchants.find((m) => m.id === id);
 }
 
+export function isMerchantUrl(merchant: Merchant, value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && merchant.hosts.includes(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
 export function openSearch(merchant: Merchant, query: string) {
   const width = Math.min(1200, Math.round(window.screen.availWidth * 0.6));
   const height = Math.round(window.screen.availHeight * 0.9);

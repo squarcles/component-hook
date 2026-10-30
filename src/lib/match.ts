@@ -47,6 +47,16 @@ export function matchesProduct(
   return keywords.every((k) => new RegExp(`(^|[^a-z0-9])${k}([^a-z0-9]|$)`, "i").test(offer.title));
 }
 
+const MAX_MANUAL_PRICE = 100000;
+
+export function parseManualPrice(value: string) {
+  const compact = value.replace(/[\s  €]/g, "");
+  const normalized = compact.includes(",") ? compact.replace(/\./g, "").replace(",", ".") : compact;
+  if (!/^\d+(?:\.\d{1,2})?$/.test(normalized)) return null;
+  const price = Number(normalized);
+  return price > 0 && price < MAX_MANUAL_PRICE ? price : null;
+}
+
 export const SCAM_NOTICE =
   "Vérifiez toujours le prix et la fiabilité de chaque annonce sur le site du marchand avant d'acheter. Des arnaques existent et Component Hook ne les filtre pas toutes : nos avertissements ne remplacent pas une vérification manuelle du vendeur, des avis et des conditions de vente.";
 
