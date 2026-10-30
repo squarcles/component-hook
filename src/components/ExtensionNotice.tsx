@@ -6,6 +6,8 @@ import { merchants } from "@/lib/merchants";
 
 const DISMISS_KEY = "pcfinder-extension-notice-dismissed";
 const STORE_URL = "";
+const REPO_URL = "https://github.com/squarcles/component-hook";
+const DOWNLOAD_URL = `${REPO_URL}/archive/refs/heads/main.zip`;
 
 export default function ExtensionNotice() {
   const [missing, setMissing] = useState(false);
@@ -85,7 +87,11 @@ export default function ExtensionNotice() {
             <p className="hint">
               Sites concernés : {merchants.map((m) => m.name).join(", ")}. Autorisations demandées : ouvrir et fermer
               des onglets, lire le contenu de ces sites, fonctionner en navigation privée. Son code tient en quatre
-              fichiers lisibles, inclus dans l&apos;archive.
+              fichiers lisibles, consultables sur{" "}
+              <a href={`${REPO_URL}/tree/main/extension`} target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+              .
             </p>
 
             <h3>Installation</h3>
@@ -95,16 +101,19 @@ export default function ExtensionNotice() {
               </a>
             ) : (
               <>
-                <a className="btn btn-big" href="/api/extension" download>
+                <a className="btn btn-big" href={DOWNLOAD_URL}>
                   Télécharger l&apos;extension
                 </a>
                 <ol className="install-steps">
-                  <li>Décompressez l&apos;archive téléchargée.</li>
+                  <li>Décompressez l&apos;archive téléchargée depuis GitHub.</li>
                   <li>
                     Ouvrez <code>chrome://extensions</code> (ou <code>edge://extensions</code>) et activez le « Mode
                     développeur ».
                   </li>
-                  <li>Cliquez sur « Charger l&apos;extension non empaquetée » et sélectionnez le dossier décompressé.</li>
+                  <li>
+                    Cliquez sur « Charger l&apos;extension non empaquetée » et sélectionnez le dossier{" "}
+                    <code>component-hook-main/extension</code>.
+                  </li>
                   <li>Dans « Détails », activez « Autoriser en mode navigation privée ».</li>
                   <li>Rechargez cette page.</li>
                 </ol>
