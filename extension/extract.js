@@ -68,7 +68,7 @@ async function pcfinderScroll() {
 
 function pcfinderPagePrice() {
   const parse = (text) => {
-    const m = /(\d{1,3}(?:[   .]\d{3})+|\d+)(?:[,.](\d{2}))?\s*€/.exec(text || "");
+    const m = /(?<![\d.,])(\d{1,3}(?:[   .]\d{3})+|\d+)(?:[,.](\d{1,2}))?\s*€/.exec(text || "");
     if (!m) return null;
     const value = parseFloat(`${m[1].replace(/[   .]/g, "")}.${m[2] || "00"}`);
     return value > 0 ? value : null;
@@ -121,7 +121,7 @@ function pcfinderItemList() {
 function pcfinderExtract() {
   if (location.hostname.endsWith("joybuy.fr")) return pcfinderItemList();
 
-  const priceRe = /(\d{1,3}(?:[   .]\d{3})+|\d+)(?:[,.](\d{2}))?\s*€(?:\s*(\d{2})(?!\d))?/;
+  const priceRe = /(?<![\d.,])(\d{1,3}(?:[   .]\d{3})+|\d+)(?:[,.](\d{1,2}))?\s*€(?:\s*(\d{2})(?!\d))?/;
 
   const parsePrice = (text) => {
     const m = priceRe.exec(text);
@@ -159,7 +159,7 @@ function pcfinderExtract() {
     const raw = (heading && (heading.innerText || heading.textContent)) || a.innerText || a.textContent || "";
     const text = raw
       .replace(/\s+/g, " ")
-      .replace(/\s*\d[\d\s .]*(?:,\d{2})?\s*€.*$/, "")
+      .replace(/\s*\d[\d\s .]*(?:,\d{1,2})?\s*€.*$/, "")
       .trim();
     if (text.length >= 20) return text;
     const attr = a.getAttribute("title") || a.querySelector("img")?.alt || "";
@@ -212,7 +212,7 @@ async function pcfinderVariantPrice(keywords) {
   }
 
   const text = document.querySelector('[class*="price-default--current"]')?.textContent || "";
-  const m = /(\d{1,3}(?:[   .]\d{3})+|\d+)(?:[,.](\d{2}))?\s*€/.exec(text);
+  const m = /(?<![\d.,])(\d{1,3}(?:[   .]\d{3})+|\d+)(?:[,.](\d{1,2}))?\s*€/.exec(text);
   if (!m) return null;
   const price = parseFloat(`${m[1].replace(/[   .]/g, "")}.${m[2] || "00"}`);
   return price > 0 ? { found: true, price, variant: label(target) } : null;
