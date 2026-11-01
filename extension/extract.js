@@ -100,7 +100,27 @@ function pcfinderPagePrice() {
   return { price, deliveryDays: pcfinderParseDelivery(deliveryText) };
 }
 
+function pcfinderItemList() {
+  const offers = [];
+  for (const script of document.querySelectorAll('script[type="application/ld+json"]')) {
+    let data = null;
+    try {
+      data = JSON.parse(script.textContent);
+    } catch {}
+    if (data?.["@type"] !== "ItemList") continue;
+    for (const entry of data.itemListElement || []) {
+      const item = entry?.item;
+      const price = parseFloat(item?.offers?.price);
+      if (!item?.name || !item.url || !(price > 0)) continue;
+      offers.push({ title: item.name, price, url: item.url, image: item.image || null, deliveryDays: null });
+    }
+  }
+  return offers;
+}
+
 function pcfinderExtract() {
+  if (location.hostname.endsWith("joybuy.fr")) return pcfinderItemList();
+
   const priceRe = /(\d{1,3}(?:[   .]\d{3})+|\d+)(?:[,.](\d{2}))?\s*€(?:\s*(\d{2})(?!\d))?/;
 
   const parsePrice = (text) => {

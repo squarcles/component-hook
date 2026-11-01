@@ -12,6 +12,7 @@
     "https://www.topachat.com/*",
     "https://www.cdiscount.com/*",
     "https://www.fnac.com/*",
+    "https://www.joybuy.fr/*",
     "https://*.aliexpress.com/*"
   ],
   "background": {

@@ -13,6 +13,7 @@ const merchants = {
   topachat: { searchUrl: (s) => `https://www.topachat.com/search/${q(s)}`, host: "www.topachat.com", detail: true },
   cdiscount: { searchUrl: (s) => `https://www.cdiscount.com/search/10/${q(s)}.html`, host: "www.cdiscount.com" },
   fnac: { searchUrl: (s) => `https://www.fnac.com/SearchResult/ResultList.aspx?Search=${q(s)}`, host: "www.fnac.com" },
+  joybuy: { searchUrl: (s) => `https://www.joybuy.fr/s?k=${q(s)}`, host: "www.joybuy.fr" },
   aliexpress: {
     searchUrl: (s) => `https://fr.aliexpress.com/wholesale?SearchText=${q(s)}`,
     host: "fr.aliexpress.com",

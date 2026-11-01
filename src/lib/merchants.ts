@@ -46,6 +46,12 @@ export const merchants: Merchant[] = [
     reviews: true,
   },
   {
+    id: "joybuy",
+    name: "Joybuy",
+    searchUrl: (s) => `https://www.joybuy.fr/s?k=${q(s)}`,
+    hosts: ["www.joybuy.fr"],
+  },
+  {
     id: "aliexpress",
     name: "AliExpress",
     searchUrl: (s) => `https://fr.aliexpress.com/wholesale?SearchText=${q(s)}`,
