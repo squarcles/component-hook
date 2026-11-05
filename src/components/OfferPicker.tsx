@@ -235,7 +235,7 @@ export default function OfferPicker({ title, search, onTake, onClose }: Props) {
     checkVariants(pending, id);
 
     const direct = matching.filter((o) => !isVariant(o));
-    checkPrices(splitOutliers(direct, false).valid.slice(0, MAX_PRICE_CHECKS), id);
+    checkPrices(direct.slice(0, MAX_PRICE_CHECKS), id);
 
     if (useReviews) {
       const candidates = splitOutliers(direct, false)

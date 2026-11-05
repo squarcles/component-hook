@@ -3,9 +3,6 @@ import { criteriaSpecs } from "./criteria";
 import { getMerchant } from "./merchants";
 import type { Build, BuildPart, CategoryId, Offer } from "./types";
 
-export const CODE_ALPHABET = "23456789ABCDEFGHJKMNPQRSTUVWXYZ";
-export const CODE_LENGTH = 6;
-export const CODE_PATTERN = new RegExp(`^[${CODE_ALPHABET}]{${CODE_LENGTH}}$`);
 
 const MAX_TEXT = 300;
 const MAX_PRICE = 100000;

@@ -3,44 +3,38 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DELIVERY_LIMITS, useBuild } from "@/lib/build";
-import { CODE_LENGTH, CODE_PATTERN } from "@/lib/share";
+import { encodeBuild, extractShareData } from "@/lib/shareLink";
 import BuildView from "@/components/BuildView";
 
-type ShareState = { status: "idle" } | { status: "loading" } | { status: "done"; code: string } | { status: "error"; error: string };
+type ShareState = { status: "idle" } | { status: "loading" } | { status: "done"; link: string } | { status: "error"; error: string };
 
 export default function HomePage() {
   const router = useRouter();
   const { build, removePart, maxDelivery, setMaxDelivery } = useBuild();
   const [share, setShare] = useState<ShareState>({ status: "idle" });
-  const [copied, setCopied] = useState("");
-  const [openCode, setOpenCode] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [openLink, setOpenLink] = useState("");
 
   const empty = Object.keys(build).length === 0;
-  const normalizedCode = openCode.trim().toUpperCase();
+  const openData = extractShareData(openLink);
 
   const createShare = async () => {
     setShare({ status: "loading" });
+    setCopied(false);
     try {
-      const response = await fetch("/api/builds", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(build),
-      });
-      const data = await response.json();
-      setShare(response.ok ? { status: "done", code: data.code } : { status: "error", error: data.error });
+      const data = await encodeBuild(build);
+      setShare({ status: "done", link: `${window.location.origin}/b#${data}` });
     } catch {
-      setShare({ status: "error", error: "Le serveur est injoignable pour le moment. Veuillez réessayer." });
+      setShare({ status: "error", error: "Le lien n'a pas pu être créé avec ce navigateur." });
     }
   };
 
   const copy = async (value: string) => {
     try {
       await navigator.clipboard.writeText(value);
-      setCopied(value);
+      setCopied(true);
     } catch {}
   };
-
-  const shareLink = share.status === "done" ? `${window.location.origin}/b/${share.code}` : "";
 
   return (
     <>
@@ -61,18 +55,13 @@ export default function HomePage() {
       <div className="share">
         <div className="share-block">
           <button className="btn" disabled={empty || share.status === "loading"} onClick={createShare}>
-            {share.status === "loading" ? "Création du code..." : "Partager ma configuration"}
+            {share.status === "loading" ? "Création du lien..." : "Partager ma configuration"}
           </button>
           {share.status === "done" && (
             <div className="share-result">
-              <span>
-                Code : <strong className="share-code">{share.code}</strong>
-              </span>
-              <button className="btn-ghost" onClick={() => copy(share.code)}>
-                {copied === share.code ? "Copié" : "Copier le code"}
-              </button>
-              <button className="btn-ghost" onClick={() => copy(shareLink)}>
-                {copied === shareLink ? "Copié" : "Copier le lien"}
+              <input className="input share-input" readOnly value={share.link} onFocus={(e) => e.target.select()} />
+              <button className="btn-ghost" onClick={() => copy(share.link)}>
+                {copied ? "Copié" : "Copier le lien"}
               </button>
             </div>
           )}
@@ -83,17 +72,16 @@ export default function HomePage() {
           className="share-block"
           onSubmit={(e) => {
             e.preventDefault();
-            if (CODE_PATTERN.test(normalizedCode)) router.push(`/b/${normalizedCode}`);
+            if (openData) router.push(`/b#${openData}`);
           }}
         >
           <input
             className="input share-input"
-            placeholder="Code de partage"
-            maxLength={CODE_LENGTH}
-            value={openCode}
-            onChange={(e) => setOpenCode(e.target.value)}
+            placeholder="Lien de partage"
+            value={openLink}
+            onChange={(e) => setOpenLink(e.target.value)}
           />
-          <button className="btn" type="submit" disabled={!CODE_PATTERN.test(normalizedCode)}>
+          <button className="btn" type="submit" disabled={!openData}>
             Ouvrir
           </button>
         </form>

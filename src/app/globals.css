@@ -605,20 +605,10 @@ p {
   gap: 8px;
 }
 
-.share-code {
-  padding: 2px 8px;
-  font: bold 18px "Courier New", monospace;
-  letter-spacing: 2px;
-  color: var(--blue);
-  background: #ffffff;
-  border: 1px dashed var(--line);
-}
-
 .share-input {
-  flex: 0 0 auto;
-  width: 170px;
+  flex: 1 1 260px;
+  width: 260px;
   min-width: 0;
-  text-transform: uppercase;
 }
 
 .accessory-links {
