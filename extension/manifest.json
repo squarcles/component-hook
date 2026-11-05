@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Component Hook",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Récupère les prix des marchands pour Component Hook.",
   "permissions": ["tabs", "scripting"],
   "incognito": "spanning",
@@ -20,7 +20,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://localhost:3000/*"],
+      "matches": ["https://componenthook.site/*", "https://www.componenthook.site/*", "http://localhost:3000/*"],
       "js": ["bridge.js"],
       "run_at": "document_start"
     }
